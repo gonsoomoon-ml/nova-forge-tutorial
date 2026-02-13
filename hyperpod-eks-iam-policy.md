@@ -2,6 +2,8 @@
 
 **Policy ARN**: `arn:aws:iam::081416279078:policy/hyperpod-eks-policy` (v2)
 
+**Attached to**: IAM user `gonsoomoon` (account `081416279078`)
+
 ```json
 {
     "Version": "2012-10-17",
