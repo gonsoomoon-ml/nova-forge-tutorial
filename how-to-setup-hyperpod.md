@@ -1,8 +1,19 @@
-# SageMaker HyperPod EKS IAM Policy
+# How to Setup SageMaker HyperPod EKS
 
-**Policy ARN**: `arn:aws:iam::081416279078:policy/hyperpod-eks-policy` (v2)
+**AWS Account**: `081416279078` | **Region**: `us-east-1` | **IAM User**: `gonsoomoon`
 
-**Attached to**: IAM user `gonsoomoon` (account `081416279078`)
+**Workshop**: https://catalog.us-east-1.prod.workshops.aws/workshops/dcac6f7a-3c61-4978-8344-7535526bf743/en-US/02-smhp-rig
+
+---
+
+## Step 1: IAM Policy Setup
+
+Created IAM policy `hyperpod-eks-policy` (v2) and attached to IAM user `gonsoomoon`.
+
+**Policy ARN**: `arn:aws:iam::081416279078:policy/hyperpod-eks-policy`
+
+<details>
+<summary>IAM Policy JSON (click to expand)</summary>
 
 ```json
 {
@@ -165,3 +176,46 @@
     ]
 }
 ```
+
+</details>
+
+---
+
+## Step 2: Environment Setup
+
+Installed the following tools on the development environment:
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| AWS CLI | v2.31.10 | AWS service interaction (min v2.17.47 required) |
+| kubectl | v1.31.3 | Kubernetes API interaction with EKS cluster |
+| eksctl | v0.222.0 | EKS cluster management, IAM OIDC provider, CSI drivers |
+| Helm | v3.20.0 | Kubernetes package manager for installing dependencies |
+
+---
+
+## Step 3: Create S3 Buckets & HyperPod Cluster
+
+### S3 Buckets
+
+Created input/output S3 buckets for Nova model customization:
+
+| Bucket | Name | Purpose |
+|--------|------|---------|
+| Input | `nova-input-20260214-4ff3` | Input data for Nova model customization |
+| Output | `nova-output-20260214-c6fe` | Output artifacts from model customization |
+
+### HyperPod Cluster Creation (Pending)
+
+Using the SageMaker AI Console **Quick Setup** option:
+
+1. Navigate to SageMaker AI Console > HyperPod > Create Cluster
+2. Select Quick Setup
+3. Add a Restricted Instance Group (RIG) with:
+   - Instance type: `ml.p5.48xlarge`
+   - Input S3: `s3://nova-input-20260214-4ff3`
+   - Output S3: `s3://nova-output-20260214-c6fe`
+   - FSx for Lustre: service-managed filesystem
+4. Submit and wait 10-15 minutes for InService status
+
+**Status**: Waiting for service quota increase (`ml.p5.48xlarge for cluster usage`)
